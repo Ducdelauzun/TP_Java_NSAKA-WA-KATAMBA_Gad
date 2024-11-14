@@ -2,14 +2,14 @@ package com.example.tp_java_nsakawakatamba_gad;
 
 public class Aeroport {
     private String IATA;
-    private String Name;
+    private String name;
     private String country;
     private double latitude;
     private double longitude;
 
     public Aeroport(String IATA, String name, String country, double latitude, double longitude) {
         this.IATA = IATA;
-        this.Name = name;
+        this.name = name;
         this.country = country;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -27,17 +27,21 @@ public class Aeroport {
         return longitude;
     }
 
-    public double calculDistance(Aeroport a) {
-        double deltaTheta = this.latitude - a.getLatitude();
-        double deltaPhi = this.longitude - a.getLongitude();
-        return Math.pow(deltaTheta, 2) + Math.pow(deltaPhi, 2);
+    public double calculDistance(Aeroport other) {
+        double deltaLat = Math.toRadians(other.latitude - this.latitude);
+        double deltaLong = Math.toRadians(other.longitude - this.longitude);
+        double avgLat = Math.toRadians((this.latitude + other.latitude) / 2);
+
+        // Calcul de la distance au carré en radians
+        return Math.pow(deltaLat, 2) + Math.pow(deltaLong * Math.cos(avgLat), 2);
     }
+
 
     @Override
     public String toString() {
         return "Aeroport{" +
                 "IATA='" + IATA + '\'' +
-                ", Name='" + Name + '\'' +
+                ", Name='" + name + '\'' +
                 ", country='" + country + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
