@@ -73,7 +73,7 @@ public class World {
     }
 
     public static void main(String[] args){
-        World w = new World ("src/main/java/com/example/data/airport-codes_no_comma.csv");
+        World w = new World ("src/main/resources/com/example/tp_java_nsakawakatamba_gad/airport-codes_no_comma.csv");
         System.out.println("Found "+w.getList().size()+" airports.");
         Aeroport paris = w.findNearest(2.316,48.866);
         Aeroport cdg = w.findByCode("CDG");
