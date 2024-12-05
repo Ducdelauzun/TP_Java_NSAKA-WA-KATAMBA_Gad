@@ -34,19 +34,23 @@ public class Interface extends Application {
         theScene.setCamera(camera);
 
         theScene.addEventHandler(MouseEvent.ANY, event -> {
-            if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
-                System.out.println("Clicked on : (" + event.getSceneX() + ", " + event.getSceneY() + ")");
-            }
+            if (event.getButton() == MouseButton.PRIMARY) {
+                // Clic gauche
+                if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
+                    System.out.println("Clicked on : (" + event.getSceneX() + ", " + event.getSceneY() + ")");
+                }
 
-            if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
-                double deltaY = event.getSceneY() - previousY;
-                previousY = event.getSceneY();
+                if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
+                    double deltaY = event.getSceneY() - previousY;
+                    previousY = event.getSceneY();
 
-                Translate translate = new Translate(0, 0, deltaY * 0.5);
-                camera.getTransforms().add(translate);
+                    Translate translate = new Translate(0, 0, deltaY * 0.5);
+                    camera.getTransforms().add(translate);
+                }
             }
 
             if (event.getButton() == MouseButton.SECONDARY && event.getEventType() == MouseEvent.MOUSE_CLICKED) {
+                // Clic droit
                 PickResult pickResult = event.getPickResult();
 
                 if (pickResult.getIntersectedNode() != null) {
