@@ -37,7 +37,6 @@ public class Interface extends Application {
 
         theScene.addEventHandler(MouseEvent.ANY, event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
-                // Clic gauche
                 if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
                     System.out.println("Clicked on : (" + event.getSceneX() + ", " + event.getSceneY() + ")");
                 }
@@ -52,7 +51,6 @@ public class Interface extends Application {
             }
 
             if (event.getButton() == MouseButton.SECONDARY && event.getEventType() == MouseEvent.MOUSE_CLICKED) {
-                // Clic droit
                 PickResult pickResult = event.getPickResult();
 
                 if (pickResult.getIntersectedNode() != null) {
@@ -71,15 +69,12 @@ public class Interface extends Application {
                         System.out.println("Aéroport le plus proche: " + nearestAirport);
                         earth.displayRedSphere(nearestAirport);
 
-                        // Créer une instance d'ApiRequester pour interroger l'API
                         ApiRequester apiRequester = new ApiRequester();
                         String flightData = apiRequester.getFlightData();
 
                         if (flightData != null) {
-                            // Analyser la réponse JSON avec JsonFlightFillerOracle
                             JsonFlightFillerOracle flightFiller = new JsonFlightFillerOracle(flightData, world);
 
-                            // Afficher des sphères jaunes pour chaque aéroport de départ
                             for (Flight flight : flightFiller.getList()) {
                                 Aeroport departureAirport = world.findByCode(flight.getAirLineCode());
                                 if (departureAirport != null) {

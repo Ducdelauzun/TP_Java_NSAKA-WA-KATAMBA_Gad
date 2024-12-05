@@ -13,9 +13,7 @@ public class World {
             String s = buf.readLine();
             while (s != null) {
                 s = s.replace("\"", "");
-                //Enleve les guillemets qui s´eparent les champs de donn´ees GPS.
                 String fields[] = s.split(",");
-                // Une bonne id´ee : placer un point d'arr^et ici pour du debuggage.
                 if (fields[1].equals("large_airport")) {
                     // A continuer
                     String Name = fields[2];
