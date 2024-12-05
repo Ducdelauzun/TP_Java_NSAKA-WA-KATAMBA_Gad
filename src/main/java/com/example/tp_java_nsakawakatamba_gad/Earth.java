@@ -41,20 +41,17 @@ public class Earth extends Group {
     }
 
     public Sphere createSphere(Aeroport a, Color color) {
-        double R = 300; // Rayon de la Terre
-        double latitude = Math.toRadians(a.getLatitude()); // Latitude en radians
-        double longitude = Math.toRadians(a.getLongitude()); // Longitude en radians
+        double R = sph.getRadius();
+        double latitude = Math.toRadians(a.getLatitude());
+        double longitude = Math.toRadians(a.getLongitude());
 
-        // Calcul des coordonnées (X, Y, Z) pour l'aéroport
         double X = R * Math.cos(latitude) * Math.sin(longitude);
-        double Y = -R * Math.sin(latitude); // Latitude inversée
+        double Y = -R * Math.sin(latitude);
         double Z = -R * Math.cos(latitude) * Math.cos(longitude);
 
-        // Création de la sphère
-        Sphere airportSphere = new Sphere(2); // Rayon de la sphère = 2
-        airportSphere.setMaterial(new PhongMaterial(color)); // Application de la couleur
+        Sphere airportSphere = new Sphere(3);
+        airportSphere.setMaterial(new PhongMaterial(color));
 
-        // Positionner la sphère à un emplacement fixe (en dehors de la rotation de la Terre)
         airportSphere.setTranslateX(X);
         airportSphere.setTranslateY(Y);
         airportSphere.setTranslateZ(Z);
@@ -64,7 +61,9 @@ public class Earth extends Group {
 
     public void displayRedSphere(Aeroport a) {
         Sphere redSphere = createSphere(a, Color.RED);
-        this.getChildren().add(redSphere);
-    }
 
+        this.getChildren().add(redSphere);
+
+        redSphere.getTransforms().add(ry);
+    }
 }

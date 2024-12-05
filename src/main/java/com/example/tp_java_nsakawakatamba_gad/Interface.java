@@ -8,6 +8,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.PickResult;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Sphere;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
@@ -68,9 +70,29 @@ public class Interface extends Application {
                     if (nearestAirport != null) {
                         System.out.println("Aéroport le plus proche: " + nearestAirport);
                         earth.displayRedSphere(nearestAirport);
+
+                        // Créer une instance d'ApiRequester pour interroger l'API
+                        ApiRequester apiRequester = new ApiRequester();
+                        String flightData = apiRequester.getFlightData();
+
+                        if (flightData != null) {
+                            // Analyser la réponse JSON avec JsonFlightFillerOracle
+                            JsonFlightFillerOracle flightFiller = new JsonFlightFillerOracle(flightData, world);
+
+                            // Afficher des sphères jaunes pour chaque aéroport de départ
+                            for (Flight flight : flightFiller.getList()) {
+                                Aeroport departureAirport = world.findByCode(flight.getAirLineCode());
+                                if (departureAirport != null) {
+                                    displayYellowBall(earth, departureAirport);
+                                }
+                            }
+                        } else {
+                            System.out.println("Aucune donnée récupérée de l'API.");
+                        }
                     } else {
                         System.out.println("Aucun aéroport trouvé à proximité.");
                     }
+
                 }
             }
         });
@@ -78,6 +100,12 @@ public class Interface extends Application {
         primaryStage.setScene(theScene);
         primaryStage.show();
     }
+
+    public static void displayYellowBall(Earth earth, Aeroport aeroport) {
+        Sphere yellowSphere = earth.createSphere(aeroport, Color.YELLOW);
+        earth.getChildren().add(yellowSphere);
+    }
+
     public static void main(String[] args) {
         launch(args);
     }
