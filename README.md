@@ -27,3 +27,4 @@ tels que l'utilisation des threads, les requêtes HTTP, la manipulation de JSON,
 et la création d'interfaces graphiques interactives avec JavaFX. 
 J'ai également appris à gérer les problèmes de performance et de concurrence tout en garantissant une interface utilisateur fluide et réactive.
 
+
