@@ -69,21 +69,10 @@ public class Interface extends Application {
                         System.out.println("Aéroport le plus proche: " + nearestAirport);
                         earth.displayRedSphere(nearestAirport);
 
-                        ApiRequester apiRequester = new ApiRequester();
-                        String flightData = apiRequester.getFlightData();
-
-                        if (flightData != null) {
-                            JsonFlightFillerOracle flightFiller = new JsonFlightFillerOracle(flightData, world);
-
-                            for (Flight flight : flightFiller.getList()) {
-                                Aeroport departureAirport = world.findByCode(flight.getAirLineCode());
-                                if (departureAirport != null) {
-                                    displayYellowBall(earth, departureAirport);
-                                }
-                            }
-                        } else {
-                            System.out.println("Aucune donnée récupérée de l'API.");
-                        }
+                        // Lancer la tâche dans un thread séparé
+                        Thread apiThread = new Thread(new ApiRequestTask(earth, world, nearestAirport));
+                        apiThread.setDaemon(true); // S'assurer que le thread ne bloque pas l'arrêt de l'application
+                        apiThread.start();
                     } else {
                         System.out.println("Aucun aéroport trouvé à proximité.");
                     }
@@ -96,7 +85,7 @@ public class Interface extends Application {
         primaryStage.show();
     }
 
-    public static void displayYellowBall(Earth earth, Aeroport aeroport) {
+    public static synchronized void displayYellowBall(Earth earth, Aeroport aeroport) {
         Sphere yellowSphere = earth.createSphere(aeroport, Color.YELLOW);
         earth.getChildren().add(yellowSphere);
     }

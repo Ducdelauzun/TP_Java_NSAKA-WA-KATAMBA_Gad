@@ -59,7 +59,7 @@ public class Earth extends Group {
         return airportSphere;
     }
 
-    public void displayRedSphere(Aeroport a) {
+    public synchronized void displayRedSphere(Aeroport a) {
         Sphere redSphere = createSphere(a, Color.RED);
 
         this.getChildren().add(redSphere);
